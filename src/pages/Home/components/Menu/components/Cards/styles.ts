@@ -12,26 +12,34 @@ export const ProductDiv = styled.div`
 
      img{
          margin-top: -20px;
-         max-width: 120px;
-         max-height: 120px;
+         width: 120px;
+         height: 120px;
          align-self: center;
      }
 
 `
-export const TagCoffee = styled.span`
+export const TagCoffee = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: ${props => props.theme["red-300"]};
-        height: 1.3125rem;
-        width: 5.0625rem;
-        border-radius: 100px;
-        color: ${props => props.theme["red-700"]};
-        font-size: 0.625rem;
-        line-height: 1.3;
-        font-weight: bold;
-        font-family: "Roboto", sans-serif;
-        margin: 12px 0 16px 0;
+        gap: 4px;
+
+        span{
+            display: flex;
+            align-items: center;
+            padding: 4px 8px 4px 8px;
+            justify-content: center;
+            background-color: ${props => props.theme["red-300"]};
+            height: 1.3125rem;
+            border-radius: 100px;
+            color: ${props => props.theme["red-700"]};
+            font-size: 0.625rem;
+            line-height: 1.3;
+            font-weight: bold;
+            font-family: "Roboto", sans-serif;
+            margin: 12px 0 16px 0;
+        }
+
 `
 
 export const TittleCoffee = styled.p`

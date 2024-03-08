@@ -1,6 +1,6 @@
-import { ProductContainer } from "./components";
+import { ProductContainer } from "./components/Cards";
 import { MenuContainer, MenuItems } from "./styles";
-
+import { coffees } from "../../../../../data.json"
 
 export function Menu(){
     return (
@@ -8,7 +8,12 @@ export function Menu(){
             <h1>Nossos cafés</h1>
 
             <MenuItems>
-                <ProductContainer/>
+                {coffees.map((coffee) => (
+                    <ProductContainer  
+                        key={coffee.id}
+                        coffee={coffee}
+                    />
+                ))}
             </MenuItems>
 
         </MenuContainer>

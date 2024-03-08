@@ -15,8 +15,8 @@ export const MenuContainer = styled.div`
 `
 
 export const MenuItems = styled.div`
-    display: flex;
-    justify-content: space-between;
-    max-width: 70rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    row-gap: 2.5rem;
 
 `
