@@ -66,7 +66,6 @@ interface CircleProps {
     circleColor: keyof typeof CIRCLE_COLOR
 }
 
-
 export const IconsCircle = styled.div<CircleProps>`
     display: flex;
     justify-content: center;

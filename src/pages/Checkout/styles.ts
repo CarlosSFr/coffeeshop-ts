@@ -129,23 +129,44 @@ export const EndCart = styled.div`
     justify-content: center;
     background-color: ${props => props.theme["gray-200"]};
     border-radius: 6px 36px 6px 36px;
-    padding: 2.5rem;
+    padding: 1rem 2.5rem 2.5rem 2.5rem;
     width: 28rem;
-`
 
-export const CoffeesSum = styled.div`
-    border-bottom: 1px solid ${props => props.theme["gray-400"]};
-    padding: 1.5rem 0.25rem;
-    margin-bottom: 1.5rem;
-    width: 100%;
-
+    a{
+        text-decoration: none;
+        background-color: ${props => props.theme["red-500"]};
+        color: ${props => props.theme["white"]};
+        width: 100%;
+        border-radius: 6px;
+    }
 `
 
 export const SumContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
     width: 100%;
     margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    gap: 0.75rem;
+`
+export const TotalItens = styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-family: "Roboto", sans-serif;
+    color: ${props => props.theme["gray-700"]};
+    font-size: 0.875;
+    line-height: 1.3;
+    font-weight: 400;
+`
+export const TotalValue = styled.div`
+    display: flex;
+    justify-content: space-between;
+    font-family: "Roboto", sans-serif;
+    color: ${props => props.theme["gray-800"]};
+    font-size: 1.25rem;
+    line-height: 1.3;
+    font-weight: 700;
 
 `
 
@@ -159,4 +180,5 @@ export const SubmitButton = styled.button`
     padding: 0.75rem;
     border: none;
     border-radius: 6px;
+
 `

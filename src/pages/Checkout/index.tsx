@@ -2,7 +2,6 @@ import { Bank, CreditCard, CurrencyDollarSimple, MapPin, Money } from "phosphor-
 import { 
     ButtonContainer, 
     CheckoutContainer, 
-    CoffeesSum, 
     EndCart, 
     FormContainer, 
     InputsContainer, 
@@ -14,8 +13,11 @@ import {
     RightContainer, 
     SubmitButton, 
     SumContainer, 
-    TextContainer } from "./styles";
-
+    TextContainer, 
+    TotalItens,
+    TotalValue} from "./styles";
+import { CoffeeSum } from "./components/CoffeeSum";
+import { NavLink } from "react-router-dom"
 
 export function Checkout(){
     return (
@@ -58,23 +60,28 @@ export function Checkout(){
             <RightContainer>
             <h1>Cafés selecionados</h1>
                 <EndCart>
-                    <CoffeesSum>
-                        <img src="../../assets/Type=Tradicional.png" alt="" />
-                        <h3>Expresso Tradicional</h3><p>R$ 9,90</p>
-                        <input type="text" />
-                        <button>Teste</button>
-                    </CoffeesSum>
+                    <CoffeeSum/>
                     <SumContainer>
-                        <span>Total de itens</span>
-                        <span>R$ 29,70</span>
-                        <span>Entrega</span>
-                        <span>R$ 3,50</span>
-                        <span>Total</span>
-                        <span>R$ 33,20</span>
+                        <TotalItens>
+                            <span>Total de itens</span>
+                            <span>R$ 29,70</span>
+                        </TotalItens>
+                        <TotalItens>
+                            <span>Entrega</span>
+                            <span>R$ 3,50</span>
+                        </TotalItens>
+                        <TotalValue>
+                            <span>Total</span>
+                            <span>R$ 33,20</span>
+                        </TotalValue>
                     </SumContainer>
-                    <SubmitButton>
-                        CONFIRMAR PEDIDO
-                    </SubmitButton>
+                    <NavLink to="/success" >
+                        <SubmitButton>
+                        
+                            CONFIRMAR PEDIDO
+                            
+                        </SubmitButton>
+                    </NavLink>
                 </EndCart>
             </RightContainer>
 
