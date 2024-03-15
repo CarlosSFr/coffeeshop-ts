@@ -84,14 +84,6 @@ export const PriceTag = styled.div`
 
 `
 
-export const QtyInput = styled.input`
-    background-color: ${props => props.theme["gray-400"]};
-    border: none;
-    border-radius: 6px;
-    width: 4.5rem;
-    height: 2.375rem;
-    margin-right: 0.5rem;
-`
 export const CartButton = styled.button`
     display: flex;
     align-items: center;
@@ -101,5 +93,14 @@ export const CartButton = styled.button`
     border: none;
     background-color: ${props => props.theme["purple-700"]};
     border-radius: 6px;
+    transition: 0.2s ease-in-out;
+
+    &:hover{
+        background-color: ${props => props.theme["purple-500"]};
+        cursor: pointer;
+    }
+    &:active{
+        background-color: ${props => props.theme["purple-700"]};
+    }
 
 `

@@ -181,4 +181,9 @@ export const SubmitButton = styled.button`
     border: none;
     border-radius: 6px;
 
+    &:not(:disabled):hover{
+        cursor: pointer;
+        background-color: ${props => props.theme["red-700"]};
+    }
+
 `

@@ -20,6 +20,24 @@ export const HeaderStyle = styled.header`
         padding: 0.5rem;
         background-color: ${props => props.theme["purple-300"]};
     }
+    span{
+        border-radius: 50%;
+        width: 1.25rem;
+        height: 1.25rem;
+        font-family: "Roboto", sans-serif;
+        font-weight: bold;
+        font-size: 0.875rem;
+        background-color: ${props => props.theme["red-700"]};
+        color: ${props => props.theme["white"]};
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        top: 36px;
+        right: 165px;
+        transform: translate(50%, -50%);
+    }
 
     div{
         display: flex;
@@ -35,5 +53,8 @@ export const HeaderStyle = styled.header`
             padding: 0.5rem;
             background-color: ${props => props.theme["red-300"]};
     }
+    
+    
+
     }
 `

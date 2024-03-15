@@ -1,19 +1,13 @@
-import { CoffeeText, CartItems, ProductDiv, TagCoffee, TittleCoffee, PriceTag, QtyInput, CartButton } from "./styles";
+import { useContext } from "react";
+import { QtdInput } from "../../../../../../components/QtdInput";
+import { CoffeeText, CartItems, ProductDiv, TagCoffee, TittleCoffee, PriceTag, CartButton } from "./styles";
 // import Tradicional from "../../../../../assets/Type=Tradicional.png"
 import { ShoppingCart } from "phosphor-react"
-
-interface CoffeeProps {
-    coffee: {
-        id: string,
-        tag: string[],
-        title: string,
-        price: number,
-        image: string,
-        description: string,
-    }
-}
+import { CartContext, CoffeeProps } from "../../../../../../contexts/CartContext";
 
 export function ProductContainer( {coffee}: CoffeeProps ){
+    const { handleCartButton, quantity, increaseValue, decreaseValue } = useContext(CartContext);
+
     return (
         <>
             <ProductDiv>
@@ -28,9 +22,13 @@ export function ProductContainer( {coffee}: CoffeeProps ){
 
                 <CartItems>
                     <PriceTag>R$<p>{coffee.price.toFixed(2)}</p></PriceTag>
-                    <QtyInput type="number" placeholder="1" /> 
+                    <QtdInput 
+                    quantity={quantity}
+                    increaseValue={increaseValue}
+                    decreaseValue={decreaseValue}
+                    />
                         
-                    <CartButton><ShoppingCart size={22} weight="fill" color="white" /></CartButton>
+                    <CartButton onClick={handleCartButton} ><ShoppingCart size={22} weight="fill" color="white" /></CartButton>
                 </CartItems>
 
             </ProductDiv>

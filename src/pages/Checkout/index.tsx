@@ -76,7 +76,7 @@ export function Checkout(){
                         </TotalValue>
                     </SumContainer>
                     <NavLink to="/success" >
-                        <SubmitButton>
+                        <SubmitButton disabled={true} >
                         
                             CONFIRMAR PEDIDO
                             
