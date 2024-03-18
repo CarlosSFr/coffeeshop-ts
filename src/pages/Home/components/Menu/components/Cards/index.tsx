@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { QtdInput } from "../../../../../../components/QtdInput";
 import { CoffeeText, CartItems, ProductDiv, TagCoffee, TittleCoffee, PriceTag, CartButton } from "./styles";
 // import Tradicional from "../../../../../assets/Type=Tradicional.png"
@@ -6,7 +6,19 @@ import { ShoppingCart } from "phosphor-react"
 import { CartContext, CoffeeProps } from "../../../../../../contexts/CartContext";
 
 export function ProductContainer( {coffee}: CoffeeProps ){
-    const { handleCartButton, quantity, increaseValue, decreaseValue } = useContext(CartContext);
+    const { handleCartButton } = useContext(CartContext);
+
+    const [ quantity, setQuantity ] = useState(1);
+
+    function increaseValue(){
+        setQuantity(quantity + 1)
+    }
+
+    function decreaseValue(){
+        setQuantity(quantity - 1)
+    }
+
+    //const coffeeId = coffee.id;
 
     return (
         <>
@@ -27,8 +39,8 @@ export function ProductContainer( {coffee}: CoffeeProps ){
                     increaseValue={increaseValue}
                     decreaseValue={decreaseValue}
                     />
-                        
-                    <CartButton onClick={handleCartButton} ><ShoppingCart size={22} weight="fill" color="white" /></CartButton>
+                    
+                    <CartButton onClick={() => handleCartButton(quantity, coffee.id)} ><ShoppingCart size={22} weight="fill" color="white" /></CartButton>
                 </CartItems>
 
             </ProductDiv>

@@ -1,12 +1,10 @@
 import { ReactNode, createContext, useState } from "react";
-// import { coffees } from "../../data.json"
+import { coffees } from "../../data.json"
 
 interface CartContextInputs { 
-    handleCartButton: () => void,
+    handleCartButton: (quantity: number, coffeeId: string) => void,
     cartItem: number,
-    quantity: number,
-    increaseValue: () => void,
-    decreaseValue: () => void,
+    newCartItem: CartItems | null,
 }
 
 interface CartContextProps {
@@ -14,52 +12,63 @@ interface CartContextProps {
 }
 
 export interface CoffeeProps {
-    coffee: {
+      coffee: {
         id: string,
         title: string,
         description: string,
         tag: string[],
         price: number,
         image: string,
-    }
+      }
 }
 
 interface CartItems {
-    // coffee: CoffeeProps[],
     quantity: number,
+    item: CoffeeProps[],
 }
 
 export const CartContext = createContext({} as CartContextInputs)
 
 export function CartContextProvider({ children }: CartContextProps){
 
-    const [ quantity, setQuantity ] = useState(1);
-
     const [ cartItem, setCartItem ] = useState(0);
+    const [ newCartItem, setNewCartItem ] = useState<CartItems | null>(null);
 
-    function handleCartButton(){
-        const newCartItem: CartItems = {
-            quantity: quantity,
+    function handleCartButton(quantity: number, coffeeId: string){
+        const existingCartItem = newCartItem;
+        
+        if (coffees.find(coffee => coffee.id === coffeeId)) {
+            const newCoffeeItem: CoffeeProps = {
+                coffee: coffees.find(coffee => coffee.id === coffeeId) || { id: "", title: "", description: "", tag: [], price: 0, image: "" }
+            }
+            
+            if (existingCartItem) {
+                const updatedCartItem: CartItems = {
+                    quantity: quantity,
+                    item: [...existingCartItem.item, newCoffeeItem],
+                };
+                setNewCartItem(updatedCartItem); // Atualizando o newCartItem
+            } else {
+                const newCartItem: CartItems = {
+                    quantity: quantity,
+                    item: [newCoffeeItem],
+                };
+                setNewCartItem(newCartItem); // Definindo o novo newCartItem
+            }
+
+            setCartItem(cartItem + 1);
+            console.log(newCartItem);
+            // console.log(cartItem)
         }
-        setCartItem(cartItem + 1);
-        console.log(newCartItem);
-    }
-    function increaseValue(){
-        setQuantity(quantity + 1)
     }
 
-    function decreaseValue(){
-        setQuantity(quantity - 1)
-    }
 
     return (
         <CartContext.Provider
             value={{
                 handleCartButton,
                 cartItem,
-                quantity,
-                increaseValue,
-                decreaseValue
+                newCartItem,
             }}
         >
         {children}

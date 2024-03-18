@@ -18,8 +18,13 @@ import {
     TotalValue} from "./styles";
 import { CoffeeSum } from "./components/CoffeeSum";
 import { NavLink } from "react-router-dom"
+import { useContext } from "react";
+import { CartContext } from "../../contexts/CartContext";
 
 export function Checkout(){
+
+    const { newCartItem } = useContext(CartContext)
+
     return (
         <CheckoutContainer>
             <LeftContainer>
@@ -60,7 +65,19 @@ export function Checkout(){
             <RightContainer>
             <h1>Cafés selecionados</h1>
                 <EndCart>
-                    <CoffeeSum/>
+                {newCartItem.item.length > 0 ? (
+                    newCartItem.item.map((item) => {
+                        return <CoffeeSum 
+                            key={item.coffee.id} // Acessando o campo id de coffee
+                            title={item.coffee.title} // Acessando o campo title de coffee
+                            price={item.coffee.price} // Acessando o campo price de coffee
+                            image={item.coffee.image} // Acessando o campo image de coffee
+                                />
+                    })
+                )
+                :
+                <div></div> // ou <></> se preferir, ou outro componente que você queira renderizar quando não houver itens
+                }
                     <SumContainer>
                         <TotalItens>
                             <span>Total de itens</span>
