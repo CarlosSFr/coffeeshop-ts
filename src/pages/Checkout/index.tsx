@@ -8,6 +8,7 @@ import {
     LeftContainer, 
     NeighborCity, 
     NumberComplement, 
+    PaymentButton, 
     PaymentContainer, 
     RightContainer, 
     SubmitButton, 
@@ -19,11 +20,14 @@ import { CoffeeSum } from "./components/CoffeeSum";
 import { NavLink } from "react-router-dom"
 import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
-import { PaymentButton } from "../../components/Payment/styles";
 
 export function Checkout(){
 
     const { arrayItems } = useContext(CartContext)
+
+    // function handlePaymentMethod(){
+
+    // }
 
     function sumOfCartItem(){
         let priceUnit = 0;
@@ -74,10 +78,19 @@ export function Checkout(){
                         <CurrencyDollarSimple size={22} color="#8047F8" /><span>Pagamento</span>
                         <p>O pagamento é feito na entrega. Escolha a forma que deseja pagar</p>
                     </TextContainer>
-                    <ButtonContainer>
-                        <PaymentButton> <CreditCard size={16} color="#8047F8"/>CARTÃO DE CRÉDITO</PaymentButton>
-                        <PaymentButton> <Bank size={16} color="#8047F8"/> CARTÃO DE DÉBITO</PaymentButton>
-                        <PaymentButton> <Money size={16} color="#8047F8"/>DINHEIRO </PaymentButton>
+                    <ButtonContainer className="radio-group" >
+                        <PaymentButton className="container" > 
+                            <input type="radio" name="radio"/>
+                            <CreditCard size={16} color="#8047F8"/>CARTÃO DE CRÉDITO
+                        </PaymentButton>
+                        <PaymentButton className="container"> 
+                            <input type="radio" name="radio" />
+                            <Bank size={16} color="#8047F8"/> CARTÃO DE DÉBITO
+                        </PaymentButton>
+                        <PaymentButton className="container">
+                            <input type="radio" name="radio" />
+                            <Money size={16} color="#8047F8"/>DINHEIRO
+                        </PaymentButton>
                     </ButtonContainer>
                 </PaymentContainer>
             </LeftContainer>
