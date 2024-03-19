@@ -68,4 +68,9 @@ export const CoffeeInput = styled.div`
         gap: 0.25rem;
     }
 
+    button:hover{
+        background-color: ${props => props.theme["gray-500"]};
+        cursor: pointer;
+    }
+
 `

@@ -1,10 +1,11 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { coffees } from "../../data.json"
 
 interface CartContextInputs { 
     handleCartButton: (quantity: number, coffeeId: string) => void,
     cartItem: number,
     newCartItem: CartItems | null,
+    arrayItems: CartItems[],
 }
 
 interface CartContextProps {
@@ -19,11 +20,11 @@ export interface CoffeeProps {
         tag: string[],
         price: number,
         image: string,
-      }
+      },
+      quantity: number,
 }
 
 interface CartItems {
-    quantity: number,
     item: CoffeeProps[],
 }
 
@@ -33,35 +34,28 @@ export function CartContextProvider({ children }: CartContextProps){
 
     const [ cartItem, setCartItem ] = useState(0);
     const [ newCartItem, setNewCartItem ] = useState<CartItems | null>(null);
+    const [ arrayItems, setArrayItems ] = useState<CartItems[]>([]);
 
-    function handleCartButton(quantity: number, coffeeId: string){
-        const existingCartItem = newCartItem;
-        
-        if (coffees.find(coffee => coffee.id === coffeeId)) {
-            const newCoffeeItem: CoffeeProps = {
-                coffee: coffees.find(coffee => coffee.id === coffeeId) || { id: "", title: "", description: "", tag: [], price: 0, image: "" }
-            }
-            
-            if (existingCartItem) {
-                const updatedCartItem: CartItems = {
-                    quantity: quantity,
-                    item: [...existingCartItem.item, newCoffeeItem],
-                };
-                setNewCartItem(updatedCartItem); // Atualizando o newCartItem
-            } else {
-                const newCartItem: CartItems = {
-                    quantity: quantity,
-                    item: [newCoffeeItem],
-                };
-                setNewCartItem(newCartItem); // Definindo o novo newCartItem
-            }
+function handleCartButton(quantity: number, coffeeId: string){       
 
-            setCartItem(cartItem + 1);
-            console.log(newCartItem);
-            // console.log(cartItem)
-        }
+    if (coffees.find(coffee => coffee.id === coffeeId)) {
+        const newCartItem: CartItems = {
+            item: [
+                    {
+                        coffee: coffees.find(coffee => coffee.id === coffeeId) || { id: "", title: "", description: "", tag: [], price: 0, image: "" },
+                        quantity: quantity
+                    }
+                ],
+        };
+        setCartItem(cartItem + 1);
+        setNewCartItem(newCartItem);
+        setArrayItems(arrayItems => [...arrayItems, newCartItem])
     }
+}
 
+useEffect(() => {
+    console.log(arrayItems);
+}, [arrayItems, newCartItem])
 
     return (
         <CartContext.Provider
@@ -69,6 +63,7 @@ export function CartContextProvider({ children }: CartContextProps){
                 handleCartButton,
                 cartItem,
                 newCartItem,
+                arrayItems,
             }}
         >
         {children}

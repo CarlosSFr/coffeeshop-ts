@@ -8,10 +8,11 @@ interface CoffeeSumProps {
     title: string,
     price: number,
     image: string,
+    quantity: number
 }
 
-export function CoffeeSum({title, price, image }: CoffeeSumProps){
-    const { newCartItem } = useContext(CartContext)
+export function CoffeeSum({ title, price, image, quantity }: CoffeeSumProps){
+    const { newCartItem } = useContext(CartContext);
 
     return(
         <>
@@ -21,14 +22,13 @@ export function CoffeeSum({title, price, image }: CoffeeSumProps){
                 <CoffeeValues>
                     <CoffeeText>
                         <h3>{title}</h3>
-                        <p>{price}</p>  
+                        <p>R$ {price}</p>  
                     </CoffeeText>
                     <CoffeeInput>
-                        <input type="text" value={
-                            
-                            newCartItem.quantity
-                            
-                            } />
+                        <input 
+                            type="text" 
+                            value={quantity} 
+                        />
                         <button> <Trash color="#8047F8" /> REMOVER</button>
                     </CoffeeInput>
                 </CoffeeValues>

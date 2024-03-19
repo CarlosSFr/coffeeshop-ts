@@ -92,20 +92,6 @@ export const ButtonContainer = styled.div`
     gap: 0.75rem;
 
 `
-export const PaymentButton = styled.button`
-    padding: 1rem;
-    color: ${props => props.theme["gray-700"]};
-    background-color: ${props => props.theme["gray-400"]};
-    border: none;
-    border-radius: 6px;
-    gap: 0.75rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-height: 51px;
-    white-space: nowrap;
-`
 
 export const RightContainer = styled.div`
     display: flex;

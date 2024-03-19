@@ -8,7 +8,6 @@ import {
     LeftContainer, 
     NeighborCity, 
     NumberComplement, 
-    PaymentButton, 
     PaymentContainer, 
     RightContainer, 
     SubmitButton, 
@@ -20,10 +19,30 @@ import { CoffeeSum } from "./components/CoffeeSum";
 import { NavLink } from "react-router-dom"
 import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
+import { PaymentButton } from "../../components/Payment/styles";
 
 export function Checkout(){
 
-    const { newCartItem } = useContext(CartContext)
+    const { arrayItems } = useContext(CartContext)
+
+    function sumOfCartItem(){
+        let priceUnit = 0;
+
+        if(arrayItems.length > 0){
+            arrayItems.forEach((cartItem) => {
+                cartItem.item.forEach((coffee) => {
+                    priceUnit += coffee.coffee.price * coffee.quantity;
+                })
+            })
+        }
+
+        return priceUnit;
+
+    }
+
+    const totalPrice = sumOfCartItem()
+
+    const delirevyPrice = 3.5;
 
     return (
         <CheckoutContainer>
@@ -65,31 +84,32 @@ export function Checkout(){
             <RightContainer>
             <h1>Cafés selecionados</h1>
                 <EndCart>
-                {newCartItem.item.length > 0 ? (
-                    newCartItem.item.map((item) => {
-                        return <CoffeeSum 
-                            key={item.coffee.id} // Acessando o campo id de coffee
-                            title={item.coffee.title} // Acessando o campo title de coffee
-                            price={item.coffee.price} // Acessando o campo price de coffee
-                            image={item.coffee.image} // Acessando o campo image de coffee
-                                />
-                    })
-                )
-                :
-                <div></div> // ou <></> se preferir, ou outro componente que você queira renderizar quando não houver itens
-                }
+                {arrayItems.length > 0 &&
+                    arrayItems.map((cartItem) => (
+                        cartItem.item.map((coffee) => (
+                            <CoffeeSum 
+                                key={coffee.coffee.id}
+                                title={coffee.coffee.title}
+                                price={coffee.coffee.price}
+                                image={coffee.coffee.image}
+                                quantity={coffee.quantity}
+                            />
+                        ))
+                    ))}
                     <SumContainer>
                         <TotalItens>
                             <span>Total de itens</span>
-                            <span>R$ 29,70</span>
+                            <span>
+                                { `R$ ${totalPrice}` }
+                            </span>
                         </TotalItens>
                         <TotalItens>
                             <span>Entrega</span>
-                            <span>R$ 3,50</span>
+                            <span>{`R$ ${delirevyPrice}`}</span>
                         </TotalItens>
                         <TotalValue>
                             <span>Total</span>
-                            <span>R$ 33,20</span>
+                            <span>{ `R$ ${delirevyPrice + totalPrice}` }</span>
                         </TotalValue>
                     </SumContainer>
                     <NavLink to="/success" >
