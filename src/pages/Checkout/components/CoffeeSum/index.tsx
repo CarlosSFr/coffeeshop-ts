@@ -12,12 +12,16 @@ interface CoffeeSumProps {
 }
 
 export function CoffeeSum({ title, price, image, quantity }: CoffeeSumProps){
-    const { newCartItem, arrayItems } = useContext(CartContext);
+const { newCartItem, arrayItems, updateArrayItems } = useContext(CartContext);
 
-    function handleRemoveItem(){
-        console.log(arrayItems)
-        console.log(newCartItem)
-        console.log(title)
+    function handleRemoveItem() {
+        if (arrayItems.length > 0) {
+            const updatedArrayItems = arrayItems.map(cartItem => {
+                const updatedItem = cartItem.item.filter(item => item.coffee.title !== title);
+                return { ...cartItem, item: updatedItem, quantity: quantity - 1 };
+            });
+            updateArrayItems(updatedArrayItems);
+        }
     }
 
     return(

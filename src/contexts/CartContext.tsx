@@ -6,6 +6,7 @@ interface CartContextInputs {
     cartItem: number,
     newCartItem: CartItems | null,
     arrayItems: CartItems[],
+    updateArrayItems: (data: CartItems[]) => void,
 }
 
 interface CartContextProps {
@@ -53,6 +54,11 @@ function handleCartButton(quantity: number, coffeeId: string){
     }
 }
 
+function updateArrayItems(data: CartItems[]){
+    setArrayItems(data);
+    setCartItem(cartItem - 1)
+}
+
 useEffect(() => {
     // console.log(arrayItems);
 }, [arrayItems, newCartItem])
@@ -64,6 +70,7 @@ useEffect(() => {
                 cartItem,
                 newCartItem,
                 arrayItems,
+                updateArrayItems
             }}
         >
         {children}
