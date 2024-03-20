@@ -66,6 +66,18 @@ export const InputsContainer = styled.div`
     flex-direction: column;
     align-items: left;
     gap: 1rem;
+
+    input[type=number]::-webkit-inner-spin-button{
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input:focus{
+        border: 1px solid ${props => props.theme["red-500"]};
+        color: ${props => props.theme["gray-700"]};
+    }
+
+
 `
 export const NumberComplement = styled.div`
     display: flex;
@@ -170,6 +182,10 @@ export const SubmitButton = styled.button`
     &:not(:disabled):hover{
         cursor: pointer;
         background-color: ${props => props.theme["red-700"]};
+    }
+
+    &:where(:disabled){
+        cursor: not-allowed;
     }
 
 `

@@ -12,7 +12,13 @@ interface CoffeeSumProps {
 }
 
 export function CoffeeSum({ title, price, image, quantity }: CoffeeSumProps){
-    const { newCartItem } = useContext(CartContext);
+    const { newCartItem, arrayItems } = useContext(CartContext);
+
+    function handleRemoveItem(){
+        console.log(arrayItems)
+        console.log(newCartItem)
+        console.log(title)
+    }
 
     return(
         <>
@@ -29,7 +35,7 @@ export function CoffeeSum({ title, price, image, quantity }: CoffeeSumProps){
                             type="text" 
                             value={quantity} 
                         />
-                        <button> <Trash color="#8047F8" /> REMOVER</button>
+                        <button onClick={handleRemoveItem} > <Trash color="#8047F8" /> REMOVER</button>
                     </CoffeeInput>
                 </CoffeeValues>
                 </CoffeesSum>

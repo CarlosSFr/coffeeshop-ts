@@ -16,23 +16,50 @@ import {
     TotalItens,
     TotalValue} from "./styles";
 import { CoffeeSum } from "./components/CoffeeSum";
-import { NavLink } from "react-router-dom"
+// import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { useForm } from "react-hook-form"
 import { Radio } from "../../components/Payment";
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as zod from "zod"
 
 type FormInputs = {
+    CEP: number,
+    street: string,
+    number: number,
+    complement: string,
+    neighborhood: string,
+    city: string,
+    UF: string,
     paymentMethod: "credit" | "debit" | "cash"
 }
 
+const checkoutValidationSchema = zod.object({
+    CEP: zod.number().min(8, "Informe um CEP válido"),
+    street: zod.string().min(1, "Informe um endereço"),
+    number: zod.number().min(8, "Informe um número"),
+    neighborhood: zod.string().min(1, "Informe um bairro"),
+    city: zod.string().min(1, "Informe uma cidade"),
+    UF: zod.string().max(2, "Informe um estado válido").min(1, "Informe um estado"),
+    paymentMethod: zod.enum(['credit', 'debit', 'cash'], {
+        invalid_type_error: 'Informe um método de pagamento',
+      }),
+})
+
 export function Checkout(){
     const { arrayItems } = useContext(CartContext)
-    const { register, watch } = useForm<FormInputs>()
+    const { register, watch, handleSubmit, reset } = useForm<FormInputs>({
+        resolver: zodResolver(checkoutValidationSchema)
+    })
+
+    function handleOrder(data: FormInputs){
+        console.log(data)
+        reset();
+    }
 
     function sumOfCartItem(){
         let priceUnit = 0;
-
         if(arrayItems.length > 0){
             arrayItems.forEach((cartItem) => {
                 cartItem.item.forEach((coffee) => {
@@ -40,9 +67,7 @@ export function Checkout(){
                 })
             })
         }
-
         return priceUnit;
-
     }
 
     const totalPrice = sumOfCartItem()
@@ -58,22 +83,50 @@ export function Checkout(){
             <LeftContainer>
                 <h1>Complete seu pedido</h1>
                 <FormContainer>
-                    <form action="">
+                    <form id="order" onSubmit={handleSubmit(handleOrder)}>
                         <TextContainer>
                             < MapPin color="#C41717" size={22} /><span>Endereço de Entrega</span>
                             <p>Informe o endereço onde deseja receber seu pedido</p>
                         </TextContainer>
                         <InputsContainer>
-                            <input type="number" placeholder="CEP" /> 
-                            <input type="text" placeholder="Rua" />
+                            <input 
+                                type="number" 
+                                placeholder="CEP" 
+                                {...register('CEP', {valueAsNumber: true}) }
+                            /> 
+                            <input 
+                                type="text" 
+                                placeholder="Rua" 
+                                {...register('street')}
+                            />
                             <NumberComplement>
-                                <input type="number" placeholder="Número" />
-                                <input type="text" placeholder="Complemento" />
+                                <input 
+                                    type="number" 
+                                    placeholder="Número" 
+                                    {...register('number', {valueAsNumber: true})}
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="Complemento" 
+                                    {...register('complement')}
+                                />
                             </NumberComplement>
                             <NeighborCity>
-                                <input type="text" placeholder="Bairro" />
-                                <input type="text" placeholder="Cidade" />
-                                <input type="text" placeholder="UF" />
+                                <input 
+                                    type="text" 
+                                    placeholder="Bairro" 
+                                    {...register('neighborhood')}
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="Cidade" 
+                                    {...register('city')}
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="UF" 
+                                    {...register('UF')}
+                                />
                             </NeighborCity>
                         </InputsContainer>
                     </form>
@@ -96,7 +149,7 @@ export function Checkout(){
                             {...register("paymentMethod")}
                             value="debit"
                         >
-                        <Bank size={16} /> CARTÃO DE DÉBITO
+                        <Bank size={16} />CARTÃO DE DÉBITO
                         </Radio>
                         <Radio
                             isSelected={selectedPaymentMethod === "cash"}
@@ -139,13 +192,13 @@ export function Checkout(){
                             <span>{ `R$ ${totalWithDelivery.toFixed(2)}` }</span>
                         </TotalValue>
                     </SumContainer>
-                    <NavLink to="/success" >
-                        <SubmitButton disabled={true} >
+                    {/* <NavLink to="/success" > */}
+                        <SubmitButton disabled={!selectedPaymentMethod} type="submit" form="order" >
                         
                             CONFIRMAR PEDIDO
                             
                         </SubmitButton>
-                    </NavLink>
+                    {/* </NavLink> */}
                 </EndCart>
             </RightContainer>
 
