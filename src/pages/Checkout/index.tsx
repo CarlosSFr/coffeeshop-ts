@@ -7,8 +7,7 @@ import {
     InputsContainer, 
     LeftContainer, 
     NeighborCity, 
-    NumberComplement, 
-    PaymentButton, 
+    NumberComplement,  
     PaymentContainer, 
     RightContainer, 
     SubmitButton, 
@@ -20,14 +19,16 @@ import { CoffeeSum } from "./components/CoffeeSum";
 import { NavLink } from "react-router-dom"
 import { useContext } from "react";
 import { CartContext } from "../../contexts/CartContext";
+import { useForm } from "react-hook-form"
+import { Radio } from "../../components/Payment";
+
+type FormInputs = {
+    paymentMethod: "credit" | "debit" | "cash"
+}
 
 export function Checkout(){
-
     const { arrayItems } = useContext(CartContext)
-
-    // function handlePaymentMethod(){
-
-    // }
+    const { register, watch } = useForm<FormInputs>()
 
     function sumOfCartItem(){
         let priceUnit = 0;
@@ -47,6 +48,10 @@ export function Checkout(){
     const totalPrice = sumOfCartItem()
 
     const delirevyPrice = 3.5;
+
+    const totalWithDelivery = delirevyPrice + totalPrice;
+
+    const selectedPaymentMethod = watch('paymentMethod')
 
     return (
         <CheckoutContainer>
@@ -78,19 +83,28 @@ export function Checkout(){
                         <CurrencyDollarSimple size={22} color="#8047F8" /><span>Pagamento</span>
                         <p>O pagamento é feito na entrega. Escolha a forma que deseja pagar</p>
                     </TextContainer>
-                    <ButtonContainer className="radio-group" >
-                        <PaymentButton className="container" > 
-                            <input type="radio" name="radio"/>
-                            <CreditCard size={16} color="#8047F8"/>CARTÃO DE CRÉDITO
-                        </PaymentButton>
-                        <PaymentButton className="container"> 
-                            <input type="radio" name="radio" />
-                            <Bank size={16} color="#8047F8"/> CARTÃO DE DÉBITO
-                        </PaymentButton>
-                        <PaymentButton className="container">
-                            <input type="radio" name="radio" />
-                            <Money size={16} color="#8047F8"/>DINHEIRO
-                        </PaymentButton>
+                    <ButtonContainer >
+                        <Radio
+                            isSelected={selectedPaymentMethod === "credit"}
+                            {...register("paymentMethod")}
+                            value="credit"
+                        >
+                        <CreditCard size={16} />CARTÃO DE CRÉDITO
+                        </Radio>
+                        <Radio
+                            isSelected={selectedPaymentMethod === "debit"}
+                            {...register("paymentMethod")}
+                            value="debit"
+                        >
+                        <Bank size={16} /> CARTÃO DE DÉBITO
+                        </Radio>
+                        <Radio
+                            isSelected={selectedPaymentMethod === "cash"}
+                            {...register("paymentMethod")}
+                            value="cash"
+                        >
+                        <Money size={16} />DINHEIRO
+                        </Radio>
                     </ButtonContainer>
                 </PaymentContainer>
             </LeftContainer>
@@ -113,16 +127,16 @@ export function Checkout(){
                         <TotalItens>
                             <span>Total de itens</span>
                             <span>
-                                { `R$ ${totalPrice}` }
+                                { `R$ ${totalPrice.toFixed(2)}` }
                             </span>
                         </TotalItens>
                         <TotalItens>
                             <span>Entrega</span>
-                            <span>{`R$ ${delirevyPrice}`}</span>
+                            <span>{`R$ ${delirevyPrice.toFixed(2)}`}</span>
                         </TotalItens>
                         <TotalValue>
                             <span>Total</span>
-                            <span>{ `R$ ${delirevyPrice + totalPrice}` }</span>
+                            <span>{ `R$ ${totalWithDelivery.toFixed(2)}` }</span>
                         </TotalValue>
                     </SumContainer>
                     <NavLink to="/success" >

@@ -22,7 +22,7 @@ export function CoffeeSum({ title, price, image, quantity }: CoffeeSumProps){
                 <CoffeeValues>
                     <CoffeeText>
                         <h3>{title}</h3>
-                        <p>R$ {price}</p>  
+                        <p>R$ {price.toFixed(2)}</p>  
                     </CoffeeText>
                     <CoffeeInput>
                         <input 

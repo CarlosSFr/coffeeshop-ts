@@ -54,7 +54,7 @@ function handleCartButton(quantity: number, coffeeId: string){
 }
 
 useEffect(() => {
-    console.log(arrayItems);
+    // console.log(arrayItems);
 }, [arrayItems, newCartItem])
 
     return (
